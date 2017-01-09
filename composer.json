@@ -1,5 +1,6 @@
 {
     "name": "hubgit/web-resource",
+    "description": "A PHP interface for fetching HTTP resources from the web",
     "type": "library",
     "license": "MIT",
     "authors": [
