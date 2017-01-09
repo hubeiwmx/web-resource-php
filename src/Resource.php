@@ -1,58 +1,21 @@
 <?php
 
-namespace Web\Resource;
-
-use GuzzleHttp\Client;
+namespace WebResource;
 
 class Resource {
-    public function __construct($url, $params = []) {
-        if ($params) {
-            $url .= '?' . http_build_query($params);
-        }
+  protected $url;
 
-        $this->url = $url;
-        $this->client = new Client;
+  public function __construct($url, $params = []) {
+    if ($params) {
+      $url .= '?' . http_build_query($params);
     }
 
-    public function get($format) {
-        $options = $this->options($format);
+    $this->url = $url;
+  }
 
-        print "Fetching {$this->url}\n";
+  public function get() {
+    $response = Request::fetch($this->url);
 
-        $response = $this->client->get($this->url, $options);
-
-        return $this->parse($response, $format);
-    }
-
-    protected function options($format) {
-        switch ($format) {
-            case 'json':
-                return [
-                    'headers' => [
-                        'Accept' => 'application/json'
-                    ]
-                ];
-        }
-    }
-
-    protected function parse($response, $format) {
-        switch ($response->getStatusCode()) {
-            case 200:
-                break;
-
-            case 409:
-                // TODO: rate-limiting
-
-            default:
-                throw new \Exception($response->getBody());
-        }
-
-        switch ($format) {
-            case 'json':
-                return $response->json();
-
-            default:
-                return $response->getBody();
-        }
-    }
+    return Request::json($response);
+  }
 }
