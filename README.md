@@ -34,20 +34,15 @@ foreach ($collection as $repo) {
 
 ```php
 use WebResource\Collection;
-use WebResource\Request;
 
 class SpotifyCollection extends Collection {
   // find the array of items in the JSON response
-  protected function items($response) {
-    $data = Request::json($response);
-    
+  protected function items($data, $response) {
     return $data['items'];
   }
   
   // find the URL of the next page in the JSON response
-  protected function next($response) {
-    $data = Request::json($response);
-    
+  protected function next($data, $response) {
     return isset($data['next']) ? $data['next'] : null;
   }
 }
