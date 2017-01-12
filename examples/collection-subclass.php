@@ -3,18 +3,13 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use WebResource\Collection;
-use WebResource\Request;
 
 class SpotifyCollection extends Collection {
-  protected function items($response) {
-    $data = Request::json($response);
-
+  protected function items($data, $response) {
     return $data['items'];
   }
 
-  protected function next($response) {
-    $data = Request::json($response);
-
+  protected function next($data, $response) {
     return isset($data['next']) ? $data['next'] : null;
   }
 }

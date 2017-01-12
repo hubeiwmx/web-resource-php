@@ -16,6 +16,6 @@ class Resource {
   public function get() {
     $response = Request::fetch($this->url);
 
-    return Request::json($response);
+    return json_decode($response->getBody(), true);
   }
 }

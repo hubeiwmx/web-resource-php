@@ -11,17 +11,23 @@ class Collection extends Resource implements \IteratorAggregate {
     do {
       $response = Request::fetch($url);
 
-      foreach ($this->items($response) as $item) {
+      $data = $this->parse($response);
+
+      foreach ($this->items($data, $response) as $item) {
         yield $item;
       }
-    } while ($url = $this->next($response));
+    } while ($url = $this->next($data, $response));
   }
 
-  protected function items($response) {
-    return Request::json($response);
+  protected function parse($response) {
+    return json_decode($response->getBody(), true);
   }
 
-  protected function next($response) {
+  protected function items($data, $response) {
+    return $data;
+  }
+
+  protected function next($data, $response) {
     $links = Psr7\parse_header($response->getHeader('Link'));
 
     foreach ($links as $link) {

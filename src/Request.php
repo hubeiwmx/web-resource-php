@@ -42,8 +42,4 @@ class Request {
 
     return $response;
   }
-
-  public static function json($response) {
-    return json_decode($response->getBody(), true);
-  }
 }
