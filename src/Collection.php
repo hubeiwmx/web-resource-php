@@ -19,10 +19,6 @@ class Collection extends Resource implements \IteratorAggregate {
     } while ($url = $this->next($data, $response));
   }
 
-  protected function parse($response) {
-    return json_decode($response->getBody(), true);
-  }
-
   protected function items($data, $response) {
     return $data;
   }
