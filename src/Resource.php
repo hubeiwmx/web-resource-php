@@ -14,12 +14,12 @@ class Resource {
   }
 
   public function get() {
-      $response = Request::fetch($this->url);
-      
-      return $this->parse($response->getBody(), $response);
+    $response = Request::fetch($this->url);
+
+    return $this->parse($response);
   }
-  
-  protected function parse($data) {
-    return json_decode($data, true);
+
+  protected function parse($response) {
+    return json_decode($response->getBody(), true);
   }
 }
